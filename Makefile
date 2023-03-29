@@ -46,8 +46,8 @@ clean:
 
 docker-build:
 	docker build \
-	--build-arg "HTTP_PROXY=http:localhost:7890" \
-    --build-arg "HTTPS_PROXY=http://localhost:7890/" \
+	--build-arg "HTTP_PROXY=http://10.167.32.133:8080" \
+    --build-arg "HTTPS_PROXY=http://10.167.32.133:8080" \
     --build-arg "NO_PROXY=localhost,127.0.0.1,.example.com" \
 		--network host \
 		-f docker/Dockerfile \
