@@ -2,3 +2,4 @@ exp/
 models/
 *.pyc
 data/
+sync.ffs_db
