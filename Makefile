@@ -26,6 +26,7 @@ DOCKER_OPTS := \
 			-v /tmp:/tmp \
 			-v /tmp/.X11-unix/X0:/tmp/.X11-unix/X0 \
 			-v /var/run/docker.sock:/var/run/docker.sock \
+			-v ~/dataset:/dataset \
 			-v ${PWD}:${WORKSPACE} \
 			-w ${WORKSPACE} \
 			--privileged \
@@ -45,6 +46,10 @@ clean:
 
 docker-build:
 	docker build \
+	--build-arg "HTTP_PROXY=http:localhost:7890" \
+    --build-arg "HTTPS_PROXY=http://localhost:7890/" \
+    --build-arg "NO_PROXY=localhost,127.0.0.1,.example.com" \
+		--network host \
 		-f docker/Dockerfile \
 		-t ${DOCKER_IMAGE} .
 

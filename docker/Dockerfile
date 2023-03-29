@@ -1,7 +1,7 @@
 # Copyright 2020 Toyota Research Institute.  All rights reserved.
 
-FROM nvidia/cuda:10.0-devel-ubuntu18.04
-
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+CMD nvidia-smi
 ENV PROJECT=permatrack
 ENV PYTORCH_VERSION=1.4
 ENV TORCHVISION_VERSION=0.5.0
@@ -17,7 +17,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Set default shell to /bin/bash
 SHELL ["/bin/bash", "-cu"]
-
+RUN  sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+RUN  apt-get clean
 RUN apt-get update && apt-get install -y --allow-downgrades --allow-change-held-packages --no-install-recommends \
     build-essential \
     cmake \
@@ -28,9 +29,9 @@ RUN apt-get update && apt-get install -y --allow-downgrades --allow-change-held-
     vim \
     wget \
     ca-certificates \
-    libcudnn7=${CUDNN_VERSION} \
-    libnccl2=${NCCL_VERSION} \
-    libnccl-dev=${NCCL_VERSION} \
+    # libcudnn7=${CUDNN_VERSION} \
+    # libnccl2=${NCCL_VERSION} \
+    # libnccl-dev=${NCCL_VERSION} \
     libjpeg-dev \
     libpng-dev \
     python${PYTHON_VERSION} \
@@ -51,7 +52,7 @@ RUN apt-get install -y --no-install-recommends openssh-client openssh-server && 
 
 RUN ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python
 
-RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
+RUN curl -O https://bootstrap.pypa.io/pip/3.6/get-pip.py && \
     python get-pip.py && \
     rm get-pip.py
 
